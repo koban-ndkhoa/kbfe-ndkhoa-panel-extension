@@ -1,0 +1,34 @@
+<div class="reel-anim-info">
+
+ <ui-section header="anim" expand>
+    <div> {{data.anim}}</div>
+</ui-section>
+
+ <ui-section header="symbols" expand>
+    <div> {{data.symbols}}</div>
+</ui-section>
+
+<ui-button class="blue" @click="updateTable">+</ui-button>
+
+ <ui-section header="frame-info" expand>
+  <table border="1">
+
+    <thead>
+      <tr>
+        <th>Pre</th>
+        <th>Main</th>
+        <th>Post</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr v-for="(row, index) in data.tableData" :key="index">
+        <td>{{ row.pre }}</td>
+        <td>{{ row.main }}</td>
+        <td>{{ row.post }}</td>
+      </tr>
+    </tbody>
+
+  </table>
+</ui-section>
+</div>

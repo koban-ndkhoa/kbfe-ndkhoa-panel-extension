@@ -1,0 +1,9 @@
+#text {
+    color: var(--color-normal-contrast-weakest);
+    margin: auto;
+    width: 180px;
+}
+.reel-anim-info {
+    text-align: center;
+}
+
