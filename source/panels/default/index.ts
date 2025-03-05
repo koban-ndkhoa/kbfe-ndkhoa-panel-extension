@@ -16,50 +16,51 @@ export const useMousePosition = () => {
     return { mouseX, mouseY };
 };
 
-export let symbols: ISymbols = {
-    unit_width: 180,
-    unit_height: 211,
-    count: 20,
-    nGroups: 3,
-
-    preSymbols: {
-        initPosY: 0,
-        posYAtFrame: {},
-        switchOrder: 2
-    },
-
-    mainSymbols: {
-        initPosY: -422,
-        posYAtFrame: {},
-        switchOrder: 1
-    },
-    postSymbols: {
-        initPosY: -844,
-        posYAtFrame: {},
-        switchOrder: 0
-    },
-}
 
 export const useGlobalStore = () => {
-
-    let tableData: ITableData[] = [{
-        pre: "pre-data", main: "main-data", post: "post-data"
-    }]
 
     let anim: IAnim = {
         curSpeed: 0,
         oneLoopTime: 1,
         distanceOfOneLoop: 0,
         fps: 60,
-        initFrame: 20,
+        initFrame: 0,
         frameStep: 15
     }
 
+    let symbols: ISymbols = {
+        unit_width: 180,
+        unit_height: 211,
+        count: 21,
+        nGroups: 3,
+
+        preSymbols: {
+            initPosY: 0,
+            posYAtFrame: {},
+            switchOrder: 2
+        },
+
+        mainSymbols: {
+            initPosY: -422,
+            posYAtFrame: {},
+            switchOrder: 1
+        },
+        postSymbols: {
+            initPosY: -844,
+            posYAtFrame: {},
+            switchOrder: 0
+        },
+    }
+
+    let tableData: ITableData[] = [{
+        pre: "pre-data", main: "main-data", post: "post-data"
+    }]
+
     let data = ref({
-        curSwitchOrder: -1,
+        anim: anim,
         symbols: symbols,
         tableData: tableData,
-        anim: anim,
+        curSwitchOrder: -1,
     })
 
     let methods = {
@@ -71,14 +72,14 @@ export const useGlobalStore = () => {
             anim.distanceOfOneLoop = symbols.unit_height * symbols.count;
             anim.curSpeed = anim.distanceOfOneLoop / anim.oneLoopTime;
 
-            symbols.preSymbols.posYAtFrame[anim.initFrame]  = symbols.preSymbols.initPosY
+            symbols.preSymbols.posYAtFrame[anim.initFrame] = symbols.preSymbols.initPosY
             symbols.mainSymbols.posYAtFrame[anim.initFrame] = symbols.mainSymbols.initPosY
             symbols.postSymbols.posYAtFrame[anim.initFrame] = symbols.postSymbols.initPosY
-            let nextFrame = anim.initFrame + anim.frameStep;
+            //let nextFrame = anim.initFrame + anim.frameStep;
             let framesArr = Array.from(
                 { length: anim.fps / anim.frameStep },
-                (_, i) => nextFrame + i * anim.frameStep
-            ) // make [15, 30, 45, 60] or [35, 50, 65, 80]
+                (_, i) => anim.initFrame + i * anim.frameStep
+            ) // make [15, 30, 45, 60] if initFrame=0 or [35, 50, 65, 80] if initFrame = 20
 
             console.log("framesArr %o", framesArr);
 
@@ -149,7 +150,7 @@ export const useGlobalStore = () => {
 
                 res += `| `
                 res += `frame: ${curFrame + 1}`
-                res += `, curPosY: ${symbolGroup.posYAtFrame[curFrame+1]} `
+                res += `, curPosY: ${symbolGroup.posYAtFrame[curFrame + 1]} `
             }
 
             return res;
@@ -175,7 +176,7 @@ export const useGlobalStore = () => {
         },
 
     }
-    return {data, methods}
+    return { data, methods }
 }
 
 
@@ -213,7 +214,7 @@ module.exports = Editor.Panel.define({
             // ---------------------
             // -- @app-testsection
             // ---------------------
-            const { data , methods } = useGlobalStore();
+            const { data, methods } = useGlobalStore();
 
             // -------------------
             // -- @app-component
