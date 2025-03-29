@@ -3,7 +3,63 @@
     margin: auto;
     width: 180px;
 }
+
 .reel-anim-info {
     text-align: center;
+    height: 100vh;
+    overflow-y: auto;
 }
+
+ .anim-and-symbol {
+  display: flex; /* Use Flexbox */
+  justify-content: space-between; /* Space between the two sections */
+  align-items: stretch; /* Stretch sections to the same height */
+  padding: 8px; /* Add some padding */
+}
+
+.frame-info {
+    width: 80%; /* 80% of the window width */
+    margin: 0 auto; /* Center horizontally */
+    padding-bottom: 80px;
+}
+
+ td {
+  user-select: text; /* Allow text selection */
+  -webkit-user-select: text; /* For Safari */
+  -moz-user-select: text; /* For Firefox */
+  -ms-user-select: text; /* For older versions of IE */
+}
+
+
+.d-none {
+    display: none
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+
+.w-0 {
+    width: 0;
+}
+
+.w-120 {
+    width: 120px;
+}
+
+.w-160 {
+    width: 160px;
+}
+
+.w-400 {
+    width: 400px;
+}
+
+.w-200 {
+    width: 200px;
+}
+
+
+
 

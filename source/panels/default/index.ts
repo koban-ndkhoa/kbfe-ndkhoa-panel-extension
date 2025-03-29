@@ -52,9 +52,11 @@ export const useGlobalStore = () => {
         },
     }
 
-    let tableData: ITableData[] = [{
-        pre: "pre-data", main: "main-data", post: "post-data"
-    }]
+    let tableData: ITableData[] = [
+        {
+            pre: ["PreData"], main: ["MainData"], post: ["PostData"]
+        }
+    ]
 
     let data = ref({
         anim: anim,
@@ -71,14 +73,15 @@ export const useGlobalStore = () => {
 
             anim.distanceOfOneLoop = symbols.unit_height * symbols.count;
             anim.curSpeed = anim.distanceOfOneLoop / anim.oneLoopTime;
+            data.value.curSwitchOrder = -1;
 
             symbols.preSymbols.posYAtFrame[anim.initFrame] = symbols.preSymbols.initPosY
             symbols.mainSymbols.posYAtFrame[anim.initFrame] = symbols.mainSymbols.initPosY
             symbols.postSymbols.posYAtFrame[anim.initFrame] = symbols.postSymbols.initPosY
-            //let nextFrame = anim.initFrame + anim.frameStep;
+            let nextFrame = anim.initFrame + anim.frameStep;
             let framesArr = Array.from(
                 { length: anim.fps / anim.frameStep },
-                (_, i) => anim.initFrame + i * anim.frameStep
+                (_, i) => nextFrame + i * anim.frameStep
             ) // make [15, 30, 45, 60] if initFrame=0 or [35, 50, 65, 80] if initFrame = 20
 
             console.log("framesArr %o", framesArr);
@@ -116,9 +119,10 @@ export const useGlobalStore = () => {
                 distanceOfOneLoop: number,
                 fps: number
             }
-        ): string {
+        ): string[] {
             const { curFrame, frameStep, speed, curSwitchOrder, distanceOfOneLoop, fps } = params;
-            let res = `frame: ${curFrame}`;
+            let res = []
+            let res_1 = `frame: ${curFrame}`;
 
             let prevSwitchOrder = curSwitchOrder - 1;
             let isSwitchOnTopOnLastTime =
@@ -131,7 +135,8 @@ export const useGlobalStore = () => {
                 symbolGroup.posYAtFrame[curFrame] = this.getPosYOnMovingDownward(
                     curPosY, frameStep, speed, fps
                 );
-                res += `, curPosY: ${symbolGroup.posYAtFrame[curFrame]} `
+                res_1 += `, curPosY: ${symbolGroup.posYAtFrame[curFrame].toFixed(4)} `
+                res.push(res_1)
             }
 
             else {
@@ -140,7 +145,8 @@ export const useGlobalStore = () => {
                 symbolGroup.posYAtFrame[curFrame] = this.getPosYOnMovingDownward(
                     curPosY, frameStep - 1, speed, fps
                 );
-                res += `, curPosY: ${symbolGroup.posYAtFrame[curFrame]} `
+                res_1 += `, curPosY: ${symbolGroup.posYAtFrame[curFrame].toFixed(4)} `
+                res.push(res_1)
             }
 
             if (curSwitchOrder == symbolGroup.switchOrder) {
@@ -148,10 +154,11 @@ export const useGlobalStore = () => {
                     symbolGroup.posYAtFrame[curFrame], speed, distanceOfOneLoop, fps
                 );
 
-                res += `| `
-                res += `frame: ${curFrame + 1}`
-                res += `, curPosY: ${symbolGroup.posYAtFrame[curFrame + 1]} `
+                let res_2 = `frame: ${curFrame + 1}`
+                res_2 += `, curPosY: ${symbolGroup.posYAtFrame[curFrame + 1].toFixed(4)} `
+                res.push(res_2)
             }
+
 
             return res;
 
@@ -174,6 +181,7 @@ export const useGlobalStore = () => {
         ): number {
             return curPosY + distanceOfOneLoop - speed * 1 / fps;
         },
+        
 
     }
     return { data, methods }

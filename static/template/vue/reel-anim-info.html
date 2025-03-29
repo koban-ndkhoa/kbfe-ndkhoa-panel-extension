@@ -1,34 +1,89 @@
 <div class="reel-anim-info">
 
- <ui-section header="anim" expand>
-    <div> {{data.anim}}</div>
-</ui-section>
+    <div class="anim-and-symbol">
+        <ui-section header="anim" expand class="aw-200 flex-1">
+            <!--<div> {{data.anim}}</div>-->
+            <ui-section header="anim-debug">
+                <ui-code language="json" class="d-noneee"> {{data.anim}} </ui-code>
+            </ui-section>
 
- <ui-section header="symbols" expand>
-    <div> {{data.symbols}}</div>
-</ui-section>
+            <ui-num-input label="fps" step="5" v-model="data.anim.fps"> </ui-num-input>
+            <ui-num-input label="InitFrame" step="5" v-model="data.anim.initFrame"> </ui-num-input>
+            <ui-num-input label="DistanceOfOneLoop" readonly v-model="data.anim.distanceOfOneLoop">
+            </ui-num-input>
+            <ui-num-input label="oneLoopTime(sec)" readonly v-model="data.anim.onLoopTime">
+            </ui-num-input>
+            <ui-num-input label="CurSpeed" readonly v-model="data.anim.curSpeed"> </ui-num-input>
+            <ui-num-input label="FrameStep" step="5" v-model="data.anim.frameStep"> </ui-num-input>
 
-<ui-button class="blue" @click="updateTable">+</ui-button>
+        </ui-section>
 
- <ui-section header="frame-info" expand>
-  <table border="1">
+        <ui-section header="symbols" expand class="flex-1">
+            <ui-section header="symbols-debug"> 
+                <ui-code language="json"> {{data.symbols}} </ui-code>
+            </ui-section>
+            <ui-num-input label="UnitWidth" step="1" v-model="data.symbols.unit_width"> </ui-num-input>
+            <ui-num-input label="UnitHeight" step="1" v-model="data.symbols.unit_height"> </ui-num-input>
+            <ui-num-input label="Count" step="1" v-model="data.symbols.count"> </ui-num-input>
+            <ui-num-input label="NumOfGroups" step="1" v-model="data.symbols.nGroups"> </ui-num-input>
 
-    <thead>
-      <tr>
-        <th>Pre</th>
-        <th>Main</th>
-        <th>Post</th>
-      </tr>
-    </thead>
+            <ui-section header="PreSymbols" expand>
+                <ui-num-input label="initPosY" v-model="data.symbols.preSymbols.initPosY" preci="4">
+                </ui-num-input>
+                <ui-num-input label="switchOrder" v-model="data.symbols.preSymbols.switchOrder" readonly>
+                </ui-num-input>
+                <ui-code language="json"> {{data.symbols.preSymbols.posYAtFrame}} </ui-code>
+            </ui-section>
 
-    <tbody>
-      <tr v-for="(row, index) in data.tableData" :key="index">
-        <td>{{ row.pre }}</td>
-        <td>{{ row.main }}</td>
-        <td>{{ row.post }}</td>
-      </tr>
-    </tbody>
 
-  </table>
-</ui-section>
+            <ui-section header="MainSymbols" expand>
+                <ui-num-input label="initPosY" v-model="data.symbols.mainSymbols.initPosY" preci="4">
+                </ui-num-input>
+                <ui-num-input label="switchOrder" v-model="data.symbols.mainSymbols.switchOrder" readonly>
+                </ui-num-input>
+                <ui-code language="json"> {{data.symbols.mainSymbols.posYAtFrame}} </ui-code>
+            </ui-section>
+
+            <ui-section header="PostSymbols" expand>
+                <ui-num-input label="initPosY" v-model="data.symbols.postSymbols.initPosY" preci="4">
+                </ui-num-input>
+                <ui-num-input label="switchOrder" v-model="data.symbols.postSymbols.switchOrder" readonly>
+                </ui-num-input>
+                <ui-code language="json"> {{data.symbols.postSymbols.posYAtFrame}} </ui-code>
+            </ui-section>
+
+        </ui-section>
+    </div>
+
+    <ui-button class="blue" @click="updateTable">Update Table</ui-button>
+
+    <ui-section header="frame-info" expand class="frame-info">
+        <ui-num-input label="Cur Switch Order" readonly v-model="data.curSwitchOrder"> </ui-num-input>
+        <table border="1">
+
+            <thead>
+                <tr>
+                    <th>Pre</th>
+                    <th>Main</th>
+                    <th>Post</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr v-for="(row, index) in data.tableData" :key="index">
+                    <td >
+                        <div v-for="(preItem, preIdx) in row.pre"> {{ preItem }} </div>
+                    </td>
+                    <td >
+                        <div v-for="(mainItem, mainIdx) in row.main" > {{ mainItem }} </div>
+                    </td>
+
+                    <td>
+                        <div v-for="(postItem, postIdx) in row.post"> {{ postItem }} </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </ui-section>
 </div>

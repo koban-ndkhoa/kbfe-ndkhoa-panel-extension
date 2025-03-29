@@ -16,9 +16,9 @@ export interface ISymbolGroup {
 }
 
 export interface ITableData {
-    pre: string,
-    main: string,
-    post: string
+    pre: string[],
+    main: string[],
+    post: string[]
 }
 
 export interface IAnim {
